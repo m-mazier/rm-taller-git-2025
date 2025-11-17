@@ -2,3 +2,6 @@
 
 ## Requisitos
 * Python 3
+
+## Ejecución
+* `python src/caja.py < input.txt`
