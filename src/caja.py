@@ -85,6 +85,39 @@ def devuelve(args, productos_db, movimientos):
     except (ValueError, IndexError):
         print("ERROR: Uso: DEVUELVE <codigo> <cantidad>")
 
+def reporte(productos_db, movimientos):
+    print("REPORTE")
+
+    # Encabezado de inventario
+    print(f"{'CODIGO':<10} {'DESCRIPCION':<20} {'PRECIO':>12} {'STOCK':>8}")
+
+    for codigo, data in sorted(productos_db.items()):
+        # Acortarmos la descripción si es demasiado larga
+        desc = data['desc'][:18] + '..' if len(data['desc']) > 20 else data['desc']
+        precio_str = f"{data['precio']:.0f}"
+
+        print(f"{codigo:<10} {desc:<20} {precio_str:>12} {data['stock']:>8}")
+
+    # Totales
+    total_ventas_unid = 0
+    total_ventas_monto = 0
+    total_devs_unid = 0
+    total_devs_monto = 0
+
+    for m in movimientos:
+        if m["tipo"] == "VENTA":
+            total_devs_unid += m["cantidad"]
+            total_ventas_monto += m["monto"]
+        elif m["tipo"] == "DEVOLUCION":
+            total_devs_unid += m["cantidad"]
+            total_devs_monto += m["monto"] # (ya es negativo)
+
+    neto = total_ventas_monto + total_devs_monto
+
+    print(f"\nVENTAS:  unidades={total_ventas_unid}  monto=Gs {total_ventas_monto:.0f}")
+    print(f"DEVOLS:  unidades={total_devs_unid}  monto=Gs {total_devs_monto:.0f}")
+    print(f"NETO:    Gs {neto:.0f}")
+
 # --- Función Principal ---
 
 def main():
@@ -121,8 +154,7 @@ def main():
         elif comando == "DEVUELVE":
             devuelve(args, productos, movimientos)
         elif comando == "REPORTE":
-            print(f"DEBUG: Comando REPORTE")
-            # reporte(productos, movimientos)
+            reporte(productos, movimientos)
         else:
             print(f"ERROR: Comando '{comando}' no reconocido.")
 
