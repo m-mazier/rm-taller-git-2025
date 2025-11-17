@@ -20,16 +20,18 @@
 
 **Entrada (`input.txt`):**
 
-ALTA chicle Chicle_de_menta 1500 
-STOCK chicle 10 
-VENDE chicle 3 
-REPORTE 
-DEVUELVE chicle 1 
-REPORTE 
-VENDE alfajor 1 
+ALTA chicle Chicle_de_menta 1500
+STOCK chicle 10
+VENDE chicle 3
+REPORTE
+DEVUELVE chicle 1
+REPORTE
+VENDE alfajor 1
 FIN
 
 **Salida:**
+
+Sistema de caja iniciado. Escriba FIN para salir.
 
 OK: ALTA chicle
 
@@ -37,22 +39,24 @@ OK: STOCK chicle -> +10
 
 OK: VENDE chicle -> 3 x 1500.0 = 4500.0
 
-REPORTE 
-CODIGO      DESCRIPCION     PRECIO      STOCK 
-chicle      Chicle_de_menta 1500        7
-VENTAS: unidades=3 monto=Gs 4500 
-DEVOLS: unidades=0 monto=Gs 0 
-NETO: Gs 4500
+REPORTE
+CODIGO     DESCRIPCION          PRECIO  STOCK
+chicle     Chicle_de_menta          1500      7
+
+VENTAS:  unidades=3  monto=Gs 4500
+DEVOLS:  unidades=0  monto=Gs 0
+NETO:    Gs 4500
 
 OK: DEVUELVE chicle -> 1 x 1500.0 = -1500.0
 
-REPORTE 
-CODIGO      DESCRIPCION     PRECIO      STOCK 
-chicle      Chicle_de_menta 1500        8
-VENTAS: unidades=3 monto=Gs 4500 
-DEVOLS: unidades=1 monto=Gs -1500 
-NETO: Gs 3000
+REPORTE
+CODIGO     DESCRIPCION          PRECIO  STOCK
+chicle     Chicle_de_menta          1500      8
 
-ERROR: Comando 'VENDE' no reconocido.
+VENTAS:  unidades=3  monto=Gs 4500
+DEVOLS:  unidades=1  monto=Gs -1500
+NETO:    Gs 3000
+
+ERROR: Código 'alfajor' no encontrado.
 
 Cerrando sistema.
