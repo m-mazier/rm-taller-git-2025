@@ -106,7 +106,7 @@ def reporte(productos_db, movimientos):
 
     for m in movimientos:
         if m["tipo"] == "VENTA":
-            total_devs_unid += m["cantidad"]
+            total_ventas_unid += m["cantidad"]
             total_ventas_monto += m["monto"]
         elif m["tipo"] == "DEVOLUCION":
             total_devs_unid += m["cantidad"]
