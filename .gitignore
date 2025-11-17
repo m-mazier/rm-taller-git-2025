@@ -28,3 +28,8 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+__pycache__/
+.venv/
+venv/
+*.pyc
