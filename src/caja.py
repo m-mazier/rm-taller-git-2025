@@ -1,5 +1,10 @@
 import sys
 
+# --- Función de Formateo de Moneda ---
+
+def formatear_monto(monto):
+    return f"Gs {monto:,.0f}".replace(",", ".")
+
 # --- Lógica de Negocio ---
 
 def alta(args, productos_db):
@@ -57,7 +62,10 @@ def vende(args, productos_db, movimientos):
         monto = producto["precio"] * cantidad
         movimientos.append({"tipo": "VENTA", "monto": monto, "cantidad": cantidad})
         
-        print(f"OK: VENDE {codigo} -> {cantidad} x {producto['precio']} = {monto}")
+        monto_str = f"{monto:,.0f}".replace(",", ".")
+        precio_str = f"{producto['precio']:,.0f}".replace(",", ".")
+        print(f"OK: VENDE {codigo} -> {cantidad} x {precio_str} = {monto_str}")
+
     except (ValueError, IndexError):
         print("ERROR: Uso: VENDE <codigo> <cantidad>")
 
@@ -81,22 +89,35 @@ def devuelve(args, productos_db, movimientos):
         monto = producto["precio"] * cantidad * -1
         movimientos.append({"tipo": "DEVOLUCION", "monto": monto, "cantidad": cantidad})
         
-        print(f"OK: DEVUELVE {codigo} -> {cantidad} x {producto['precio']} = {monto}")
+        monto_str = f"{monto:,.0f}".replace(",", ".")
+        precio_str = f"{producto['precio']:,.0f}".replace(",", ".")
+        print(f"OK: DEVUELVE {codigo} -> {cantidad} x {precio_str} = {monto_str}")
+
     except (ValueError, IndexError):
         print("ERROR: Uso: DEVUELVE <codigo> <cantidad>")
 
+# --- Comando LISTA ---
+def lista_inventario(productos_db):
+    print("INVENTARIO")
+    print(f"{'CODIGO':<10} {'DESCRIPCION':<20} {'PRECIO':>12} {'STOCK':>8}")
+
+    if not productos_db:
+        productos_db("(Inventario vacío)")
+        return
+    
+    for codigo, data in sorted(productos_db.items()):
+        desc = data['desc'][:18] + '..' if len(data['desc']) > 20 else data['desc']
+
+        precio_str = f"{data['precio']:,.0f}".replace(",", ".")
+
+    print(f"{codigo:<10} {desc:<20} {precio_str:>12} {data['stock']:>8}")
+
+# --- Función REPORTE ---    
 def reporte(productos_db, movimientos):
     print("REPORTE")
 
-    # Encabezado de inventario
-    print(f"{'CODIGO':<10} {'DESCRIPCION':<20} {'PRECIO':>12} {'STOCK':>8}")
-
-    for codigo, data in sorted(productos_db.items()):
-        # Acortarmos la descripción si es demasiado larga
-        desc = data['desc'][:18] + '..' if len(data['desc']) > 20 else data['desc']
-        precio_str = f"{data['precio']:.0f}"
-
-        print(f"{codigo:<10} {desc:<20} {precio_str:>12} {data['stock']:>8}")
+    # Reutilización de la función LISTA para el inventario
+    lista_inventario(productos_db)
 
     # Totales
     total_ventas_unid = 0
@@ -114,9 +135,9 @@ def reporte(productos_db, movimientos):
 
     neto = total_ventas_monto + total_devs_monto
 
-    print(f"\nVENTAS:  unidades={total_ventas_unid}  monto=Gs {total_ventas_monto:.0f}")
-    print(f"DEVOLS:  unidades={total_devs_unid}  monto=Gs {total_devs_monto:.0f}")
-    print(f"NETO:    Gs {neto:.0f}")
+    print(f"\nVENTAS:  unidades={total_ventas_unid}  monto={formatear_monto(total_ventas_monto)}")
+    print(f"DEVOLS:  unidades={total_devs_unid}  monto={formatear_monto(total_devs_monto)}")
+    print(f"NETO:    {formatear_monto(neto)}")
 
 # --- Función Principal ---
 
@@ -153,6 +174,8 @@ def main():
             vende(args, productos, movimientos)
         elif comando == "DEVUELVE":
             devuelve(args, productos, movimientos)
+        elif comando == "LISTA":
+            lista_inventario(productos)
         elif comando == "REPORTE":
             reporte(productos, movimientos)
         else:
