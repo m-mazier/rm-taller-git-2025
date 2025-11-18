@@ -75,6 +75,39 @@ def main():
                 })
 
                 print(f"OK: VENDE {cant} x {codigo}. Total: {neto:.0f} (Desc: {descuento:.0f})")
+
+            elif comando == "DEVUELVE":
+                # DEVUELVE <codigo> <cantidad>
+                codigo = args[0]
+                cant = int(args[1])
+
+                if codigo in productos:
+                    productos[codigo]["stock"] += cant
+                    # Registramos devolución (montos negativos)
+                    precio = productos[codigo]["precio"]
+                    monto = precio * cant * -1
+
+                    movimientos.append({
+                        "tipo": "DEVOLUCION",
+                        "codigo": codigo,
+                        "cantidad": cant,
+                        "bruto": monto,
+                        "descuento": 0,
+                        "neto": monto
+                    })
+                    print(f"OK: DEVUELVE {codigo}")
+
+            elif comando == "PROMOS":
+                print("PROMOCIONES ACTIVAS")
+                
+                contador_promo = 1
+
+                for descripcion in promociones_activas:
+
+                    print(f"{contador_promo}) {descripcion}")
+
+                    contador_promo += 1
+
             else:
                 pass
         
