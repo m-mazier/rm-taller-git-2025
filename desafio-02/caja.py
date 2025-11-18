@@ -20,7 +20,7 @@ def main():
             break
 
         partes = linea.split()
-        comando = partes[0].upper
+        comando = partes[0].upper()
         args = partes[1:]
 
         try:
@@ -33,7 +33,7 @@ def main():
                 print(f"OK: ALTA {codigo}")
 
             elif comando == "STOCK":
-                #STOCK <codigo> <cantidad>
+                # STOCK <codigo> <cantidad>
                 codigo = args[0]
                 cant = int(args[1])
                 if codigo in productos:
@@ -42,8 +42,39 @@ def main():
                 else:
                     print("ERROR: Producto no encontrado")
 
-            # Aquí irán los demás comandos...
+            elif comando == "VENDE":
+                # VENDE <codigo> <cantidad>
+                codigo = args[0]
+                cant = int(args[1])
 
+                if codigo not in productos:
+                    print(f"ERROR: {codigo} no existe")
+                    continue
+
+                if productos[codigo]['stock'] < cant:
+                    print(f"ERROR: Stock insuficiente")
+                    continue
+                
+                items_venta = [(codigo, cant)]
+
+                descuento = calcular_descuento(items_venta, productos, promociones_activas)
+
+                precio_unit = productos[codigo]["precio"]
+                bruto = precio_unit * cant
+                neto = bruto - descuento
+
+                productos[codigo]["stock"] -= cant
+
+                movimientos.append({
+                    "tipo": "VENTA",
+                    "codigo": codigo,
+                    "cantidad": cant,
+                    "bruto": bruto,
+                    "descuento": descuento,
+                    "neto": neto
+                })
+
+                print(f"OK: VENDE {cant} x {codigo}. Total: {neto:.0f} (Desc: {descuento:.0f})")
             else:
                 pass
         
