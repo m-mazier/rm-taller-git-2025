@@ -37,25 +37,25 @@ OK: ALTA chicle
 
 OK: STOCK chicle -> +10
 
-OK: VENDE chicle -> 3 x 1500.0 = 4500.0
+OK: VENDE chicle -> 3 x 1.500 = 4.500
 
 REPORTE
-CODIGO     DESCRIPCION          PRECIO  STOCK
-chicle     Chicle_de_menta          1500      7
+CODIGO     DESCRIPCION          PRECIO      STOCK
+chicle     Chicle_de_menta       1.500          7
 
-VENTAS:  unidades=3  monto=Gs 4500
+VENTAS:  unidades=3  monto=Gs 4.500
 DEVOLS:  unidades=0  monto=Gs 0
-NETO:    Gs 4500
+NETO:    Gs 4.500
 
-OK: DEVUELVE chicle -> 1 x 1500.0 = -1500.0
+OK: DEVUELVE chicle -> 1 x 1.500 = -1.500
 
 REPORTE
-CODIGO     DESCRIPCION          PRECIO  STOCK
-chicle     Chicle_de_menta          1500      8
+CODIGO     DESCRIPCION          PRECIO      STOCK
+chicle     Chicle_de_menta       1.500          8
 
-VENTAS:  unidades=3  monto=Gs 4500
-DEVOLS:  unidades=1  monto=Gs -1500
-NETO:    Gs 3000
+VENTAS:  unidades=3  monto=Gs 4.500
+DEVOLS:  unidades=1  monto=Gs -1.500
+NETO:    Gs 3.000
 
 ERROR: Código 'alfajor' no encontrado.
 
