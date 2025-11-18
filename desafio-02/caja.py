@@ -108,6 +108,62 @@ def main():
 
                     contador_promo += 1
 
+            elif comando == "REPORTE":
+                print("REPORTE")
+
+                # --- 1. Reporte de Inventario (Tabla) ---
+                print(f"{'CODIGO':<10} {'DESC':<15} {'PRECIO':>8} {'STOCK':>6}")
+                for c, p in productos.items():
+                    # slicing para acortar la descripción
+                    print(f"{c:<10} {p['desc'][:15]:<15} {p['precio']:>8.0f} {p['stock']:>6}")
+
+                # --- 2. Cálculo de Totales ---
+                total_ventas_brutas = 0
+                total_descuentos_aplicados = 0
+                total_devoluciones_neto = 0
+
+                for movimiento in movimientos:
+                    if movimiento['tipo'] == 'VENTA':
+                        total_ventas_brutas += movimiento['bruto']
+                        total_descuentos_aplicados += movimiento['descuento']
+
+                    elif movimiento['tipo'] == 'DEVOLUCION':
+                        total_devoluciones_neto += movimiento['neto']
+
+                # Calculamos el neto final
+                total_neto_final = total_ventas_brutas - total_descuentos_aplicados + total_devoluciones_neto
+
+                print(f"\nVENTAS BRUTAS:   {total_ventas_brutas:.0f}")
+                print(f"DESCUENTOS:      {total_descuentos_aplicados:.0f}")
+                print(f"DEVOLUCIONES:    {total_devoluciones_neto:.0f}")
+                print(f"NETO:            {total_neto_final:.0f}")
+
+                # --- 3. TOP 3 ---
+
+                # 1. Contar ventas por producto
+                conteo_ventas = {}
+                for m in movimientos:
+                    if m['tipo'] == 'VENTA':
+                        cod = m['codigo']
+                        # Usamos get() para iniciar en 0 si el código no existe
+                        conteo_ventas[cod] = conteo_ventas.get(cod, 0) + m['cantidad']
+
+                # 2. Convertimos el diccionario a una lista de tuplas para poder ordenar
+                lista_para_ordenar = []
+                for codigo_vendido, cantidad_vendida in conteo_ventas.items():
+                    lista_para_ordenar.append((codigo_vendido, cantidad_vendida))
+
+                # 3. Ordenamos la lista
+
+                ranking = sorted(lista_para_ordenar, key=lambda x: x[1], reverse=True)
+
+                print("\nTOP 3 VENDIDOS:")
+
+
+                # 4. Imprimimos los primeros 3 resultados del ranking
+                for cod, cant in ranking[:3]:
+                    print(f"- {cod}: {cant} unidades")
+
             else:
                 pass
         
