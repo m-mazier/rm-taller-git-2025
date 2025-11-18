@@ -35,7 +35,6 @@ La salida muestra cómo se aplican los descuentos de 3x2 (chicle) y 10% (agua500
     * Agua (5 unidades): 5 * 3000 = 15000. 10% de 15000 = 1500 Gs.
     * Galleta/Café: 0 Gs (No se cumple el combo en una sola venta).
 
-```markdown
 #### Salida Esperada:
 
 OK: ALTA chicle OK: ALTA agua500 OK: ALTA galleta OK: ALTA cafe OK: STOCK chicle -> 10 OK: STOCK agua500 -> 30 OK: STOCK galleta -> 12 OK: STOCK cafe -> 10 PROMOCIONES ACTIVAS
