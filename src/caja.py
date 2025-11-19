@@ -102,7 +102,7 @@ def lista_inventario(productos_db):
     print(f"{'CODIGO':<10} {'DESCRIPCION':<20} {'PRECIO':>12} {'STOCK':>8}")
 
     if not productos_db:
-        productos_db("(Inventario vacío)")
+        print("(Inventario vacío)")
         return
     
     for codigo, data in sorted(productos_db.items()):
@@ -110,7 +110,7 @@ def lista_inventario(productos_db):
 
         precio_str = f"{data['precio']:,.0f}".replace(",", ".")
 
-    print(f"{codigo:<10} {desc:<20} {precio_str:>12} {data['stock']:>8}")
+        print(f"{codigo:<10} {desc:<20} {precio_str:>12} {data['stock']:>8}")
 
 # --- Función REPORTE ---    
 def reporte(productos_db, movimientos):
